@@ -15,7 +15,7 @@ netmask "%s"
 ' ADDRESS NETMASK >> /etc/network/interfaces"
 
 sudo service networking restart
-sudo mv /etc/dnsmasq.conf /etc/dnsmasq.default # make a backup of dnsmasq
+sudo mv /etc/dnsmask.conf /etc/dnsmask.default # make a backup of dnsmasq
 
 sudo sh -c "printf '
 interface=eth0
