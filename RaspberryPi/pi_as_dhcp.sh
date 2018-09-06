@@ -5,7 +5,8 @@
 #
 #   Be careful of network interface names on NOOBS
 #   Run ifconfig to confirm ethernet is listed as eth0 and not enx<YOUR_MAC>
-#
+#   /etc/udev/rules.d/70-persistent-net.rules
+#   SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="YOUR_ETHERNET_MAC", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="eth*", NAME="eth0"
 #--------------------------------------------------------------
 ADDRESS='192.168.0.1'
 NETMASK='255.255.255.0'
