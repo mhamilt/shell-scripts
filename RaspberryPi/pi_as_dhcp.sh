@@ -1,6 +1,12 @@
 #!/bin/bash
 #--------------------------------------------------------------
 # Setup pi as a DHCP Server
+#
+#
+#   Be careful of network interface names on NOOBS
+#   Run ifconfig to confirm ethernet is listed as eth0 and not enx<YOUR_MAC>
+#
+#--------------------------------------------------------------
 ADDRESS='192.168.0.1'
 NETMASK='255.255.255.0'
 DHCPRANGE='192.168.0.2,192.168.0.254'
