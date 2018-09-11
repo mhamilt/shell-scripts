@@ -5,8 +5,17 @@
 #
 #   Be careful of network interface names on NOOBS
 #   Run ifconfig to confirm ethernet is listed as eth0 and not enx<YOUR_MAC>
+#
+#
+#   Create a file:
 #   /etc/udev/rules.d/70-persistent-net.rules
+#
+#   and add to it
 #   SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="YOUR_ETHERNET_MAC", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="eth*", NAME="eth0"
+#
+#   which will change the interface name to eth0
+#
+#   from https://www.raspberrypi.org/forums/viewtopic.php?t=132674
 #--------------------------------------------------------------
 ADDRESS='192.168.0.1'
 NETMASK='255.255.255.0'
@@ -23,11 +32,11 @@ static ip_address=%s/24
 #--------------------------------------------------------------
 sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
 sudo sh -c "printf 'interface=eth0      # Use interface eth0
-listen-address=%s      # Explicitly specify the address to listen on
-server=8.8.8.8           # Forward DNS requests to Google DNS
-domain-needed            # Do not forward short names
-bogus-priv               # Never forward addresses in the non-routed address spaces.
-dhcp-range=%s,%s,12h # Assign IP addresses in range with a 12 hour lease time
+listen-address=%s                       # Explicitly specify the address to listen on
+server=8.8.8.8                          # Forward DNS requests to Google DNS
+domain-needed                           # Do not forward short names
+bogus-priv                              # Never forward addresses in the non-routed address spaces.
+dhcp-range=%s,%s,12h                    # Assign IP addresses in range with a 12 hour lease
 ' $ADDRESS $DHCPRANGE $NETMASK > /etc/dnsmasq.conf"
 #--------------------------------------------------------------
 sudo sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
