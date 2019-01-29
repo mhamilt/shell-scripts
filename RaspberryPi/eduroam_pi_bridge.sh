@@ -40,8 +40,6 @@ sudo systemctl restart dhcpcd
 #--------------------------------------------------------------
 sudo apt-get update
 sudo apt-get install dnsmasq
-sudo apt-get upgrade -y
-sudo apt-get install rpi-update dnsmasq -y
 sudo rpi-update
 #--------------------------------------------------------------
 sudo sed -i 's/iface eth0/#iface eth0/g' /etc/network/interfaces
