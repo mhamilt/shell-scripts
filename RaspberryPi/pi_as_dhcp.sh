@@ -33,8 +33,8 @@ sudo service dhcpcd restart
 #--------------------------------------------------------------
 sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
 sudo sh -c "printf 'interface=eth0      # Use interface eth0
-dhcp-range=%s,%s,12h                    # Assign IP addresses in range with a 12 hour lease
-' $DHCPRANGE  > /etc/dnsmasq.conf"
+dhcp-range=%s,%s,24h                    # Assign IP addresses in range with a 12 hour lease
+' $DHCPRANGE $NETMASK  > /etc/dnsmasq.conf"
 #--------------------------------------------------------------
 sudo systemctl reload dnsmasq
 #--------------------------------------------------------------
