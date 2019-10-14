@@ -27,12 +27,6 @@ while [[ $INPUTMATCH -eq 0 ]]; do
 done
 printf '\n'
 #----------------------------------------------------------
-sudo sh -c "printf '
-allow-hotplug wlan0
-iface wlan0 inet manual
-wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
-' >> /etc/network/interfaces"
-
 sudo sh -c "printf 'ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 ap_scan=1
 update_config=1
@@ -54,3 +48,19 @@ network={
 sudo systemctl daemon-reload
 sudo systemctl restart dhcpcd
 sudo service networking restart
+
+
+# ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+# ap_scan=1
+# update_config=1
+# country=GB
+# network={
+#    ssid="eduroam"
+#    proto=RSN
+#    key_mgmt=WPA-EAP
+#    eap=PEAP
+#    identity="UUN@DOMAIN"
+#    password="PASSWORD"
+#    phase1="peaplabel=0"
+#    phase2="auth=MSCHAPV2"
+# }
