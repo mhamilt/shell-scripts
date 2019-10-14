@@ -44,10 +44,7 @@ network={
 ' $USERNAME $PASSWORD > /etc/wpa_supplicant/wpa_supplicant.conf"
 #----------------------------------------------------------
 #EOF
-
-sudo systemctl daemon-reload
 sudo systemctl restart dhcpcd
-sudo service networking restart
 
 
 # ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
