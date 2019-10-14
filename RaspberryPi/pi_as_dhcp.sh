@@ -24,9 +24,8 @@ sudo apt-get update
 sudo apt-get -y install dnsmasq
 #--------------------------------------------------------------
 sudo sh -c "printf '
-interface wlan0
+interface eth0
     static ip_address=%s/24
-    nohook wpa_supplicant
 ' $ADDRESS >> /etc/dhcpcd.conf"
 #--------------------------------------------------------------
 sudo service dhcpcd restart
