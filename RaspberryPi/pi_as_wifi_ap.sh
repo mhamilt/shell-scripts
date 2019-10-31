@@ -1,38 +1,24 @@
 #!/bin/bash
 #--------------------------------------------------------------
-# Setup pi as WiFi Access Point
-# from https://www.raspberrypi.org/documentation/configuration/wireless/access-point.md
-#--------------------------------------------------------------
-ssid='Hue WiFi'
-wpa_passphrase='abcIoT'
+# Forward wifi traffic to ethernet
 #--------------------------------------------------------------
 sudo apt-get update
-sudo apt-get install hostapd bridge-utils
+
+sudo apt-get -y install \
+                dnsmasq \
+                hostapd \
+                    sed
 #--------------------------------------------------------------
-sudo systemctl stop hostapd
-#--------------------------------------------------------------
-sudo sh -c "printf '
-denyinterfaces wlan0
-denyinterfaces eth0
+sudo sh -c "printf 'interface wlan0
+    static ip_address=192.168.4.1/24
+    nohook wpa_supplicant
 ' >> /etc/dhcpcd.conf"
 #--------------------------------------------------------------
-sudo brctl addbr br0
-sudo brctl addif br0 eth0
-
-## in reverse
-# brctl delif br0 eth0
-# ifconfig br0 down
-# brctl delbr br0
-#--------------------------------------------------------------
-sudo sh -c "printf '# Bridge setup
-auto br0
-iface br0 inet manual
-bridge_ports eth0 wlan0' > /etc/network/interfaces"
+sudo service dhcpcd restart
 #--------------------------------------------------------------
 sudo sh -c "printf 'interface=wlan0
-bridge=br0
-#driver=nl80211
-ssid=%s
+driver=nl80211
+ssid=NameOfNetwork
 hw_mode=g
 channel=7
 wmm_enabled=0
@@ -40,11 +26,13 @@ macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
 wpa=2
-wpa_passphrase=%s
+wpa_passphrase=AardvarkBadgerHedgehog
 wpa_key_mgmt=WPA-PSK
 wpa_pairwise=TKIP
-rsn_pairwise=CCMP' $ssid $wpa_passphrase > /etc/network/interfaces"
-
-sudo sed -i 's/DAEMON_CONF/DAEMON_CONF="/etc/hostapd/hostapd.conf" #/g' /etc/network/interfaces
+rsn_pairwise=CCMP
+' >> /etc/dhcpcd.conf"
 #--------------------------------------------------------------
-#EOF
+sudo sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+sudo iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE
+sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
+sudo iptables-restore < /etc/iptables.ipv4.nat
