@@ -55,7 +55,7 @@ network={
 #----------------------------------------------------------
 #EOF
 sudo systemctl restart dhcpcd
-
+echo "you may need to reboot"
 
 # ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 # ap_scan=1
