@@ -21,5 +21,7 @@ ExecStartPost=/bin/hciconfig hci0 piscan \
 |g' /lib/systemd/system/bluetooth.service
 sudo systemctl restart bluetooth.service # Restart the service.
 sudo systemctl daemon-reload # Reload the configuration file.
+sudo systemctl restart bluetooth.service # Restart the service.
+sudo systemctl daemon-reload # Reload the configuration file.
 # ------------------------------------------------------------------------------
 printf "'now run \u001b[34;1mbluetoothctl\u001b[0m and enter \u001b[1mdiscoverable on\u001b[0m\n Pair with %s\n' $bluetooth_id"
